@@ -61,3 +61,16 @@ def Recomendaciones(id : int):
     distances, indices = nneighbors.kneighbors(registro)
     neighbor_data = games['app_name'].iloc[indices[0]]
     return neighbor_data
+
+@app.get('/sentiment_analysys/{year}')
+def sentiment_analysis(year : int):
+    import pandas as pd
+    df = pd.read_csv('datasets/dataset_endpoint_4.csv')
+
+    malo = len(df[(df['value'] == 'Malo') & (df['year'] == year)])
+    neutral = len(df[(df['value'] == 'Neutral') & (df['year'] == year)])
+    positivo = len(df[(df['value'] == 'Positivo') & (df['year'] == year)])
+
+    resultado = {'Malo' : malo, 'Neutral' : neutral, 'Positivo' : positivo}
+
+    return resultado
